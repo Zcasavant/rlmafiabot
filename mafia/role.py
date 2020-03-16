@@ -40,7 +40,7 @@ class Godfather(Role):
     name = "Mafia"
     game_start_message = (
         "Your role is **Mafia**\n"
-        "You win by loosing the game\n"
+        "You win by purposefully losing the game\n"
         "Don't let town know you are trying to throw the game"
     )
 
