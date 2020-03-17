@@ -8,7 +8,7 @@ from redbot.core.utils.predicates import ReactionPredicate
 from redbot.core.utils.menus import start_adding_reactions
 
 from .player import Player
-from .role import Role, Town, Godfather
+from .role import Role, TownRole, MafiaRole
 
 class Game:
     """
@@ -224,7 +224,7 @@ class Game:
         embed = discord.Embed(description=member.mention+" has joined the game")
         await channel.send(embed=embed)
 
-    async def _set_roles(self, game_type=None):
+    async def _create_game_roles(self, game_type=None):
         """
         If no game_type game creates the roles based on number of players
         """
@@ -233,9 +233,9 @@ class Game:
         if game_type is None:
             for player_index in range(len(self.players)):
                 if player_index == len(self.players) - 1:
-                    self.roles.append(Godfather())
+                    self.roles.append(MafiaRole())
                 else:
-                    self.roles.append(Town())
+                    self.roles.append(TownRole())
         return True
 
     async def _assign_roles(self, roles):
@@ -428,7 +428,7 @@ class Game:
             embed.insert_field_at(1, name="You have 15 seconds to vote: ", value=str(time), inline=False)
             await msg.edit(embed=embed)
 
-        # TODO: Total up Reactions a   
+        # TODO: Total up Reactions   
 
     async def _end_round(self, ctx):
         mafia_players = await self._get_mafia_players()

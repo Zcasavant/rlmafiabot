@@ -20,7 +20,7 @@ class Role:
         await self.player.send_dm(self.game_start_message)
 
 # Town Roles
-class Town(Role):
+class TownRole(Role):
     alignment = 1  # 1: Town, 2: Mafia
     color = 3066993 # Green
     name = "Town"
@@ -34,7 +34,7 @@ class Town(Role):
         super().__init__()
 
 # Mafia Roles
-class Godfather(Role):
+class MafiaRole(Role):
     alignment = 2  # 1: Town, 2: Mafia
     color = 15158332 # Red
     name = "Mafia"
