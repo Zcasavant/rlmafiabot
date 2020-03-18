@@ -1,6 +1,6 @@
 # Plasmids-DiscordBots
 
-Cog Function
+Cogs
 
 | Name | Status | Description (Click to see full status)
 | --- | --- | --- |
