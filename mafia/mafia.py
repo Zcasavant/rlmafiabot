@@ -131,7 +131,7 @@ class Mafia(Cog):
             await msg.delete()
 
             if pred.result:
-                game.cleanup()
+                await game.cleanup()
                 await ctx.send("Game has ended!\nStart a new game with `[p]mafia start`")
                 return
             else:
@@ -143,7 +143,7 @@ class Mafia(Cog):
             return
 
         if not game.started and not game.game_over:
-            game.cleanup()
+            await game.cleanup()
             await ctx.send("Game has ended!\nStart a new game with `[p]mafia start`")
             return
 
