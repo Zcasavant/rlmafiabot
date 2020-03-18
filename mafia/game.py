@@ -83,7 +83,7 @@ class Game:
                 return False
     
         # Create and Assign Game Roles
-        if not await self._set_roles():
+        if not await self._create_game_roles():
             return False
 
         if not await self._assign_roles(self.roles):
@@ -195,6 +195,7 @@ class Game:
         self.vote_totals = {}
 
         self.started = False
+        self.started = True
 
         self.game_role = None
         self.channel_category = None

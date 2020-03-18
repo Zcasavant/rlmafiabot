@@ -106,13 +106,48 @@ class Mafia(Cog):
             await ctx.send("Unhandled Error - check previous messages for issues")
             return
 
-# TODO: Need to find a good way to do this
-#    @commands.guild_only()
-#    @mafia.command(name="end")
-#    async def mafia_end(self, ctx: commands.Context):
-#        """
-#        Attempts to end the game
-#        """
+    @commands.guild_only()
+    @mafia.command(name="end")
+    async def mafia_end(self, ctx: commands.Context):
+        """
+        Attempts to end the game
+        """
+        game = await self._get_game(ctx)
+
+        if game is None:
+            await ctx.send("No game to end!")
+            return
+
+        if game.started:
+            embed = discord.Embed(title="There is currently a game in progress. Are you sure you want to end the game?")
+            embed.add_field(name="Select an Option",value="Click ✅ for yes\nClick ❎ for no")
+
+            msg = await ctx.send(embed=embed)
+            start_adding_reactions(msg, ReactionPredicate.YES_OR_NO_EMOJIS)
+
+            pred = ReactionPredicate.yes_or_no(msg)
+            await ctx.bot.wait_for("reaction_add", check=pred)
+        
+            await msg.delete()
+
+            if pred.result:
+                game.cleanup()
+                await ctx.send("Game has ended!\nStart a new game with `[p]mafia start`")
+                return
+            else:
+                await ctx.send("Game has not ended.")
+                return
+        
+        if game.game_over:
+            await ctx.send("Game has already ended.")
+            return
+
+        if not game.started and not game.game_over:
+            game.cleanup()
+            await ctx.send("Game has ended!\nStart a new game with `[p]mafia start`")
+            return
+
+        await ctx.send("Unhandled Error: Unable to end game")
 
     @commands.guild_only()
     @mafia.command(name="players")
@@ -123,6 +158,10 @@ class Mafia(Cog):
         string_mention = " "
         game = await self._get_game(ctx)
 
+        if len(game.players) == 0:
+            await ctx.send("No Players currently in the game!")
+            return
+        
         for player in game.players:
             string_mention = string_mention + player.mention + " "
 
