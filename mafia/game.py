@@ -183,13 +183,16 @@ class Game:
 
     async def cleanup(self):
         # Delete Discord stuff
-        await self.game_role.delete(reason="(BOT) Mafia Game Has Ended")
-        await self.village_channel.delete(reason="(BOT) Mafia Game Has Ended")
-        await self.channel_category.delete(reason="(BOT) Mafia Game Has Ended")
+        if self.game_role is not None:
+            await self.game_role.delete(reason="(BOT) Mafia Game Has Ended")
+        if self.village_channel is not None:
+            await self.village_channel.delete(reason="(BOT) Mafia Game Has Ended") 
+        if self.channel_category is not None:
+            await self.channel_category.delete(reason="(BOT) Mafia Game Has Ended")
 
         # Reset Variables
         self.game_task = None
-        
+
         self.roles = []
         self.players = []
         self.join_queue = []
