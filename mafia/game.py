@@ -201,7 +201,7 @@ class Game:
         self.vote_totals = {}
 
         self.started = False
-        self.started = True
+        self.game_over = True
 
         self.game_role = None
         self.channel_category = None
