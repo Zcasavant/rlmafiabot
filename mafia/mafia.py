@@ -101,8 +101,9 @@ class Mafia(Cog):
         if game is None:
             await ctx.send("No game to start!\nCreate a new one with `[p]mafia new`")
             return
-
-        if not await game.start(ctx):
+        
+        game.game_task = asyncio.create_task(game.start(ctx))
+        if not await game.game_task:
             await ctx.send("Unhandled Error - check previous messages for issues")
             return
 
@@ -131,7 +132,8 @@ class Mafia(Cog):
             await msg.delete()
 
             if pred.result:
-                await game.cleanup()
+                game.game_task.cancel()
+                game.cleanup()
                 await ctx.send("Game has ended!\nStart a new game with `[p]mafia start`")
                 return
             else:

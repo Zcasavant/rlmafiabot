@@ -22,6 +22,7 @@ class Game:
 
     def __init__(self, guild: discord.Guild):
         self.guild = guild
+        self.game_task = None
 
         self.roles = []
         self.players = []
@@ -187,6 +188,8 @@ class Game:
         await self.channel_category.delete(reason="(BOT) Mafia Game Has Ended")
 
         # Reset Variables
+        self.game_task = None
+        
         self.roles = []
         self.players = []
         self.join_queue = []
