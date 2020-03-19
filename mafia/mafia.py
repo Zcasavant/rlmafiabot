@@ -133,7 +133,7 @@ class Mafia(Cog):
 
             if pred.result:
                 game.game_task.cancel()
-                game.cleanup()
+                await game.cleanup()
                 await ctx.send("Game has ended!\nStart a new game with `[p]mafia start`")
                 return
             else:
