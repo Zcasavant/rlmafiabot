@@ -61,6 +61,7 @@ class Game:
             return False            
             
         if len(self.players) == 0:
+            await self.cleanup()
             await ctx.send("No players to start the game!\nJoin the game with `[p]mafia join`")
             return True
         
